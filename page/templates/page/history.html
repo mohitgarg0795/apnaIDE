@@ -1,0 +1,24 @@
+<html>
+
+<head><title>Recent History</title></head>
+
+<body>
+
+	<h2>recent code submissions</h2>
+	{% if queryset %}
+		{% for i in queryset %}
+		<br>
+		<div>
+			{{i.id}}<br> 
+			<a href={{i.web_link}}>view submission</a><br>
+			{{i.lang}}<br>
+			{{i.status}}<br>
+			{{i.time_used}}<br>
+			submitted {{i.timestamp}} {{i.time_posvalue}} ago<br>
+		</div>
+		<br>
+		{% endfor %}
+	{% endif %}
+</body>
+
+</html>
