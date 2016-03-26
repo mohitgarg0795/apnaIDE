@@ -1,0 +1,14 @@
+<html>
+<title>register</title>
+
+<body>
+
+<form method="POST" >{% csrf_token %}
+{{ forms.errors}}
+{{ form.as_p }}
+<input type="submit" value="Register">
+</form>
+</body>
+
+
+</html>
