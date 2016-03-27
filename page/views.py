@@ -25,22 +25,29 @@ def login_user(request):
 		username=request.POST.get("username")
 		password=request.POST.get("password")
 		user=authenticate(username=username, password=password)
-		
+		print user
 		if user:
 			if request.user.is_authenticated():
+				print request.user
 				print "You are already logged in"
+
 			else:
-				#login(request,user)
 				print "not logged in"
+				login(request,user)
+				return HttpResponseRedirect("post")
 		else:
 			print "invalid user password"
 
 	return render(request,"page/login.html",{})
 
 
+#@login_required(redirect_field_name="login")
+@login_required(login_url="/login")
 def logout_user(request):
+	print request.user
 	logout(request)
-	return HttpResponseRedirect('/post/')
+	print "succesfully logged out"
+	return HttpResponseRedirect("post")
 
 def register(request):
 	if request.method=='POST' :
@@ -69,6 +76,9 @@ def register(request):
 	return render(request,"page/register.html",context)
 
 def post(request):
+	user=request.user
+	print user
+
 	if request.method=="POST":
 		data['source']=request.POST.get('code')
 		if data['source']=='':	#to avoid empty source code
@@ -85,7 +95,7 @@ def post(request):
 		}
 
 		r = requests.post(RUN_URL, data=data)
-		print r.json()
+		#print r.json()
 
 		run_status=r.json()['run_status']['status']
 		web_link=r.json()['web_link']				
@@ -112,18 +122,21 @@ def post(request):
 
 		#to save record to database, instantiate the model class 		
 		inst=CodeHistory(code=data['source'],status=run_status,time_used=time_used,lang=data['lang'],web_link=web_link,output=context['output'])
+		if user.is_authenticated():		#to store valid username corresponding to each submission, not for anonymoususer
+			inst.username=user
 		inst.save()
 		
 		#to save it directly - using model manager
 		#CodeHistory.objects.create(code=data['source'],status=run_status,time_used=time_used,lang=data['lang'],web_link=web_link,output=context['output'])
-
+		context['user']=user
 		return render(request,"page/post.html",context)
-	print request.user	
+
 	return render(request,"page/post.html",{'output':'',
 											'code':'',
 											'lang_default':'C',
 											'input':'',
 											'status':'',
+											'user':user,
 											})
 
 def display_time(time_taken):		#to convert time in seconds its highest unit possible
