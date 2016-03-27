@@ -2,12 +2,23 @@
 <title>register</title>
 
 <body>
-<h2>Register a new account</h2>
-<form method="POST" >{% csrf_token %}
-{{ forms.errors}}
-{{ form.as_p }}
-<input type="submit" value="Register">
-</form>
+
+	{% if registered %}
+		<h4>Congrats you have successfully registered</h4><br><br>
+
+		<a href="post">Move to homepage</a><br>
+		<a href="login">Login to your account</a><br>
+
+	{% else %}
+
+		<h2>Register a new account</h2>
+		<form method="POST" >{% csrf_token %}
+		{{ forms.errors}}
+		{{ form.as_p }}
+		<input type="submit" value="Register">
+		</form>
+
+	{% endif %}
 </body>
 
 

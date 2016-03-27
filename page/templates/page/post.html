@@ -10,6 +10,8 @@
 		{% if user.is_authenticated %}
 			<h3>logged in</h3>
 			Welcome {{ user }} <br>
+
+			<a href="mycodes">My recent codes</a><br>
 			<a href="logout">logout</a><br>
 		{% else %}
 			<h3> logged out</h3>
@@ -18,7 +20,6 @@
 		{% endif %}
 
 		<a href="history">see previous submissions</a><br>
-
 
 		<h4>Code : </h4>
 		<div id="code_area" style="height: 400px; width: 700px; overflow: auto">

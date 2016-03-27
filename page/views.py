@@ -49,6 +49,7 @@ def logout_user(request):
 	print "succesfully logged out"
 	return HttpResponseRedirect("post")
 
+
 def register(request):
 	if request.method=='POST' :
 		form=UserForm(request.POST)
@@ -58,6 +59,7 @@ def register(request):
 			user=User.objects.create_user(username=user.username, email=user.email, password=user.password)
 			user.save()
 
+			return render(request,"page/register.html",{ 'registered' : True})
 			"""user=form.cleaned_data
 			username=user['username']
 			email=user['email']
@@ -67,9 +69,10 @@ def register(request):
 		else:
 			return render(request,"page/register.html",{'form':form})
 
-	form=UserForm(initial={
-		'username' : "mohit",
-		})
+	if request.user.is_authenticated():
+		return HttpResponseRedirect('post')
+
+	form=UserForm()
 	context={
 		"form":form,
 	}
@@ -158,3 +161,16 @@ def history(request):
 		i.timestamp=timezone.now()-i.timestamp 
 		i.timestamp,i.time_posvalue=display_time(i.timestamp.total_seconds())
 	return render(request,"page/history.html",{'queryset':queryset})
+
+def mycodes(request):
+	user=request.user
+	
+	if not user.is_authenticated():
+		return HttpResponseRedirect("login")
+
+	queryset=CodeHistory.objects.all().filter(username=user).order_by("-id")
+	for i in queryset:
+		i.timestamp=timezone.now()-i.timestamp 
+		i.timestamp,i.time_posvalue=display_time(i.timestamp.total_seconds())
+
+	return render(request,"page/mycodes.html",{'queryset':queryset})

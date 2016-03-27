@@ -14,7 +14,7 @@ class UserForm(forms.ModelForm):
 	email=forms.EmailField(label="Enter Email ID")
 	password=forms.CharField(max_length=100,widget=forms.PasswordInput())	#overrides the original password field of User coz that shows password entered
 	repassword=forms.CharField(max_length=100,widget=forms.PasswordInput(),label="Confirm Password")
-
+	
 	class Meta:
 		model=User
 		fields=('username','email','password')
