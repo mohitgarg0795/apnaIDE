@@ -3,11 +3,19 @@
 
 <body>
 <h2>Login to your account</h2>
-<form method="POST" >{% csrf_token %}
-	Enter username <input type="text" name="username" value='' ></input><br>
-	Enter password <input type="password" name="password" value='' ></input><br>
-	<input type="submit" value="LOGIN">
-</form>
+	
+	{% if error %}
+		{{error}} <br><br>
+	{% endif %}
+
+	<form method="POST" >{% csrf_token %}
+		Enter username <input type="text" name="username" value='{{username}}' ></input><br>
+		Enter password <input type="password" name="password" value='{{password}}' ></input><br><br>
+		<input type="submit" value="LOGIN">
+	</form>
+
+	<a href="post">Home</a><br>
+	<a href="register">Register a new account</a>
 
 </body>
 

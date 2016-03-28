@@ -21,11 +21,16 @@ def index(request):
 
 
 def login_user(request):
+	context={
+		'username' : '',
+		'password' : '',
+	}
+
 	if request.method=="POST":
 		username=request.POST.get("username")
 		password=request.POST.get("password")
 		user=authenticate(username=username, password=password)
-		print user
+		#print user
 		if user:
 			if request.user.is_authenticated():
 				print request.user
@@ -36,9 +41,13 @@ def login_user(request):
 				login(request,user)
 				return HttpResponseRedirect("post")
 		else:
-			print "invalid user password"
+			context['username']=username
+			context['password']=password
+			context['error']="Invalid username or password : Please try again "
 
-	return render(request,"page/login.html",{})
+			print render(request,"page/login.html",context)
+
+	return render(request,"page/login.html",context)
 
 
 #@login_required(redirect_field_name="login")
@@ -160,13 +169,15 @@ def history(request):
 	for i in queryset:
 		i.timestamp=timezone.now()-i.timestamp 
 		i.timestamp,i.time_posvalue=display_time(i.timestamp.total_seconds())
-	return render(request,"page/history.html",{'queryset':queryset})
+	return render(request,"page/history.html",{'queryset':queryset,
+												'user' : request.user })
 
+@login_required(login_url="/login")
 def mycodes(request):
 	user=request.user
 	
-	if not user.is_authenticated():
-		return HttpResponseRedirect("login")
+	#if not user.is_authenticated():		//used login_required() decorator instead
+	#	return HttpResponseRedirect("login")
 
 	queryset=CodeHistory.objects.all().filter(username=user).order_by("-id")
 	for i in queryset:
@@ -174,3 +185,27 @@ def mycodes(request):
 		i.timestamp,i.time_posvalue=display_time(i.timestamp.total_seconds())
 
 	return render(request,"page/mycodes.html",{'queryset':queryset})
+
+
+@login_required(login_url="/login")
+def change_password(request):
+	user=request.user
+
+	#if not user.is_authenticated():
+	#	return HttpResponseRedirect("login")
+
+	if request.method=="POST":
+		oldpass=request.POST['oldpass']
+		newpass=request.POST['newpass']
+		repass=request.POST['repass']
+		
+		user=authenticate(username=user,password=oldpass)
+		if user and newpass==repass:
+			user.set_password(repass)
+			user.save()
+			logout(request)
+			return HttpResponseRedirect("login")
+		else:
+			return render(request,"page/changepassword.html",{ 'error' : "Passwords don't match, please try again"})
+
+	return render(request,"page/changepassword.html",{})

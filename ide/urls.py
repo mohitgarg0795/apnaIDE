@@ -18,7 +18,7 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^index$', "page.views.index"),
+    url(r'^index$', "page.views.post"),
     url(r'^post$', "page.views.post"),
     url(r'^history$',"page.views.history"),
     url(r'^register$',"page.views.register"),
@@ -26,4 +26,5 @@ urlpatterns = [
     url(r'^logout$',"page.views.logout_user"),
     url(r'^mycodes$',"page.views.mycodes"),
     url(r'^captcha/', include('captcha.urls')),
+    url(r'^changepassword$',"page.views.change_password"),
 ]
