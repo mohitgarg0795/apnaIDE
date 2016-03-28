@@ -16,15 +16,17 @@ Including another URLconf
 from django.conf.urls import url,include
 from django.contrib import admin
 
+from page import views as page_views
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^index$', "page.views.post"),
-    url(r'^post$', "page.views.post"),
-    url(r'^history$',"page.views.history"),
-    url(r'^register$',"page.views.register"),
-    url(r'^login$',"page.views.login_user"),
-    url(r'^logout$',"page.views.logout_user"),
-    url(r'^mycodes$',"page.views.mycodes"),
+    url(r'^index$', page_views.post),
+    url(r'^post$', page_views.post),
+    url(r'^history$',page_views.history),
+    url(r'^register$',page_views.register),
+    url(r'^login$',page_views.login_user),
+    url(r'^logout$',page_views.logout_user),
+    url(r'^mycodes$',page_views.mycodes),
+    url(r'^changepassword$',page_views.change_password),
     url(r'^captcha/', include('captcha.urls')),
-    url(r'^changepassword$',"page.views.change_password"),
 ]
