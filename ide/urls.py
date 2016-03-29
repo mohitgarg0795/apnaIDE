@@ -20,7 +20,7 @@ from page import views as page_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^index$', page_views.post),
+    url(r'^$', page_views.post),
     url(r'^post$', page_views.post),
     url(r'^history$',page_views.history),
     url(r'^register$',page_views.register),
