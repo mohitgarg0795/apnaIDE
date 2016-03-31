@@ -10,32 +10,19 @@ function decode(text){
     return text.replace(/&amp;/g,'&')
 }
 
-editor.setValue(decode(document.getElementById('hiddentextarea').innerHTML));
-
-document.getElementById('body').onload=function(){
-	if(!document.getElementById('hiddentextarea').innerHTML)	//its a new compilation request page
-		{
-			editor.focus()
-			document.getElementById('status').style.display='none'
-			editor.setValue(source_template['C'])
-		}
-	else														//else its output of a code, so focus on the output
-		{
-			document.getElementById('output').focus()
-			document.getElementById('status').style.display='initial'
-		}
-}
-
-if(document.getElementById("input").innerHTML)
-	{
-		document.getElementById("input").style.display='initial'
-		document.getElementById("check_input").checked=true
-	}
-
-editor.on('change',updatetextarea);
-function updatetextarea()
-{
-	document.getElementById('hiddentextarea').innerHTML=editor.getValue();
+lang_map={                        // map language values to corresponding files in ace src
+	"C":"c_cpp",
+	"C++":"c_cpp",
+	"C++ 11":"c_cpp",
+	"CLOJURE":"clojure",
+	"C#":"csharp",
+	"JAVA":"java",
+	"JAVASCRIPT":"javascript",
+	"HASKEL":"haskell",
+	"PERL":"perl",
+	"PHP":"php",
+	"PYTHON":"python",
+	"RUBY":"ruby"
 }
 
 source_template={
@@ -66,24 +53,37 @@ public static void main (String[] args) throws java.lang.Exception\n\t{\n\t\t// 
 	"RUBY":"# your code goes here"
 }
 
-lang_map={                        // map language values to corresponding files in ace src
-	"C":"c_cpp",
-	"C++":"c_cpp",
-	"C++ 11":"c_cpp",
-	"CLOJURE":"clojure",
-	"C#":"csharp",
-	"JAVA":"java",
-	"JAVASCRIPT":"javascript",
-	"HASKEL":"haskell",
-	"PERL":"perl",
-	"PHP":"php",
-	"PYTHON":"python",
-	"RUBY":"ruby"
-}
-
 lang_default=document.getElementById('hiddenlang').innerHTML
 document.getElementById("lang").value=lang_default
 editor.getSession().setMode("ace/mode/"+lang_map[lang_default])
+
+window.onload=function(){
+	if(!document.getElementById('hiddentextarea').innerHTML)	//its a new compilation request page
+		{
+			editor.focus()
+			document.getElementById('status').style.display='none'
+			editor.setValue(source_template[lang_default])
+		}
+	else														//else its output of a code, so focus on the output
+		{
+			document.getElementById('output').focus()
+			document.getElementById('status').style.display='initial'
+			editor.setValue(decode(document.getElementById('hiddentextarea').innerHTML));
+		}
+}
+
+if(document.getElementById("input").innerHTML)
+	{
+		document.getElementById("input").style.display='initial'
+		document.getElementById("check_input").checked=true
+	}
+
+editor.on('change',updatetextarea);
+function updatetextarea()
+{
+	document.getElementById('hiddentextarea').innerHTML=editor.getValue();
+}
+
 
 document.getElementById("lang").onclick=function(){
 	lang=this.value

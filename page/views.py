@@ -16,6 +16,11 @@ lang_map={
 	"C#" : "CSHARP"
 }
 
+reverse_lang_map={
+	"CPP" : "C++",
+	"CPP11" : "C++ 11",
+	"CSHARP" : "C#" 
+}
 def index(request):
 	return HttpResponse("mohit")
 
@@ -96,8 +101,6 @@ def post(request):
 		if data['source']=='':	#to avoid empty source code
 			data['source']=' ' 
 		data['lang']=request.POST.get('language')
-		if data['lang'] in lang_map:
-			data['lang']=lang_map[data['lang']]
 		data['input']=request.POST.get('input')
 
 		context={
@@ -105,6 +108,9 @@ def post(request):
 			'lang_default':data['lang'],
 			'input':data['input'],
 		}
+
+		if data['lang'] in lang_map:
+			data['lang']=lang_map[data['lang']]
 
 		r = requests.post(RUN_URL, data=data)
 		#print r.json()
@@ -141,11 +147,19 @@ def post(request):
 		#to save it directly - using model manager
 		#CodeHistory.objects.create(code=data['source'],status=run_status,time_used=time_used,lang=data['lang'],web_link=web_link,output=context['output'])
 		context['user']=user
+
+		request.session['lang']=reverse_lang_map.get(data['lang'],data['lang'])		# make last used language to be default lang for next time
+
 		return render(request,"page/post.html",context)
+
+	if 'lang' in request.session:
+		x=request.session['lang']
+	else:
+		x='C'
 
 	return render(request,"page/post.html",{'output':'',
 											'code':'',
-											'lang_default':'C',
+											'lang_default': x,
 											'input':'',
 											'status':'',
 											'user':user,
