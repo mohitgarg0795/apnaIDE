@@ -68,9 +68,7 @@ def login_user(request):
 #@login_required(redirect_field_name="login")
 @login_required(login_url="/login")
 def logout_user(request):
-	print request.user
 	logout(request)
-	print "succesfully logged out"
 	return HttpResponseRedirect("post")
 
 
@@ -167,8 +165,7 @@ def post(request):
 	else:
 		x='C'
 
-	return render(request,"page/post.html",{'output':'',
-											'code':'',
+	return render(request,"page/post.html",{'code':'',
 											'lang_default': x,
 											'input':'',
 											'status':'',

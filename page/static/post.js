@@ -19,7 +19,7 @@ lang_map={                        // map language values to corresponding files 
 	"C#":"csharp",
 	"JAVA":"java",
 	"JAVASCRIPT":"javascript",
-	"HASKEL":"haskell",
+	"HASKELL":"haskell",
 	"PERL":"perl",
 	"PHP":"php",
 	"PYTHON":"python",
@@ -43,7 +43,7 @@ public static void main (String[] args) throws java.lang.Exception\n\t{\n\t\t// 
 
 	"JAVASCRIPT":"// your code goes here",
 
-	"HASKEL":"main = -- your code goes here",
+	"HASKELL":"main = -- your code goes here",
 	
 	"PERL":"#!/usr/bin/perl\n# your code goes here",
 
@@ -64,10 +64,14 @@ window.onload=function(){
 			editor.focus()
 			document.getElementById('status').style.display='none'
 			editor.setValue(source_template[lang_default])
+			document.getElementById('output').style.display='none'
+			document.getElementById('outputtextarea').style.display='none'
 		}
 	else														//else its output of a code, so focus on the output
 		{
-			document.getElementById('output').focus()
+			document.getElementById('output').style.display='initial'
+			document.getElementById('outputtextarea').style.display='initial'
+			document.getElementById('outputtextarea').focus()
 			document.getElementById('status').style.display='initial'
 			editor.setValue(decode(document.getElementById('hiddentextarea').innerHTML));
 		}
