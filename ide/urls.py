@@ -15,12 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url,include
 from django.contrib import admin
+from django.views.generic import RedirectView
 
 from page import views as page_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', page_views.post),
     url(r'^post$', page_views.post),
     url(r'^history$',page_views.history),
     url(r'^register$',page_views.register),
@@ -29,4 +29,5 @@ urlpatterns = [
     url(r'^mycodes$',page_views.mycodes),
     url(r'^changepassword$',page_views.change_password),
     url(r'^captcha/', include('captcha.urls')),
+    url(r'^', RedirectView.as_view(url='/post')),
 ]

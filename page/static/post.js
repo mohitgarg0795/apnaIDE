@@ -1,6 +1,7 @@
 editor = ace.edit('code_area');
 editor.setTheme('ace/theme/monokai');
 editor.$blockScrolling=Infinity
+editor.setShowPrintMargin(false);
 
 function decode(text){
 	text=text.replace(/&#39;/g,"'")			// '/g' added to replace all occurances of the substring else it replaces only first occurance

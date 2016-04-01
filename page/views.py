@@ -21,8 +21,18 @@ reverse_lang_map={
 	"CPP11" : "C++ 11",
 	"CSHARP" : "C#" 
 }
-def index(request):
-	return HttpResponse("mohit")
+
+def display_time(time_taken):		#to convert time in seconds its highest unit possible
+	days=int(time_taken)/86400
+	if(days):
+		return days,"days"
+	hr=int(time_taken)/3600
+	if(hr):
+		return hr,"hours"
+	minutes=int(time_taken)/60
+	if(minutes):
+		return minutes,"minutes"
+	return int(time_taken)%60,"seconds"
 
 
 def login_user(request):
@@ -164,18 +174,6 @@ def post(request):
 											'status':'',
 											'user':user,
 											})
-
-def display_time(time_taken):		#to convert time in seconds its highest unit possible
-	days=int(time_taken)/86400
-	if(days):
-		return days,"days"
-	hr=int(time_taken)/3600
-	if(hr):
-		return hr,"hours"
-	minutes=int(time_taken)/60
-	if(minutes):
-		return minutes,"minutes"
-	return int(time_taken)%60,"seconds"
 
 
 def history(request):
