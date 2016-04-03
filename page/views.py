@@ -108,7 +108,7 @@ def code_link(request,id):
 		inst=CodeHistory.objects.get(code_id=id)	#raises 'does not exist exception' if object not found in db or 'multiple..entries' if more than 1 object exist 
 		context={
 			'code' : inst.code,
-			'lang_default' : inst.lang,
+			'lang_default' : reverse_lang_map.get(inst.lang,inst.lang),
 			'input' : inst.code_input,
 			'output' : inst.output,
 			'status' : inst.status,
@@ -180,7 +180,7 @@ def post(request):
 		#CodeHistory.objects.create(code=data['source'],status=run_status,time_used=time_used,lang=data['lang'],web_link=web_link,output=context['output'])
 		#context['user']=user
 
-		request.session['lang']=reverse_lang_map.get(data['lang'],data['lang'])		# make last used language to be default lang for next time
+		request.session['lang']=context['lang_default']#reverse_lang_map.get(data['lang'],data['lang'])		# make last used language to be default lang for next time
 
 		return HttpResponseRedirect(unique_id)
 

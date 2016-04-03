@@ -21,7 +21,6 @@ from page import views as page_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^(?P<id>[a-zA-Z0-9]{6})$', page_views.code_link),
     url(r'^post$', page_views.post),
     url(r'^history$',page_views.history),
     url(r'^register$',page_views.register),
@@ -30,5 +29,6 @@ urlpatterns = [
     url(r'^mycodes$',page_views.mycodes),
     url(r'^changepassword$',page_views.change_password),
     url(r'^captcha/', include('captcha.urls')),
+    url(r'^(?P<id>[a-zA-Z0-9]{6})$', page_views.code_link),
     url(r'^', RedirectView.as_view(url='/post')),
 ]

@@ -1,3 +1,4 @@
+
 <html>
 
 <head><title>My History | apnaIDE</title></head>
@@ -13,7 +14,7 @@
 		<br>
 		<div style="border-radius: 25px; background: #808080; padding: 20px;  width: 200px; height: 150px; ">
 
-			Link -> <a href={{i.web_link}}>view submission</a><br>
+			Link -> <a href=http://{{ request.META.HTTP_HOST }}/{{i.code_id}}>view submission</a><br>
 			Language -> {{i.lang}}<br>
 			Status -> {{i.status}}<br>
 			Time taken -> {{i.time_used}}<br>
