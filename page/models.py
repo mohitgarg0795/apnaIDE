@@ -12,6 +12,8 @@ class CodeHistory(models.Model):
 	lang=models.CharField(max_length=10)
 	web_link=models.URLField(max_length=50)
 	output=models.TextField()
+	code_id=models.CharField(max_length=6)
+	code_input=models.TextField()
 
 	def __unicode__(self):
 		return self.web_link

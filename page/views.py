@@ -1,14 +1,16 @@
-from django.shortcuts import render
+
+from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse,HttpResponseRedirect
 from hack import *
-from models import CodeHistory as CodeHistory
+from models import CodeHistory
 from django.utils import timezone
 from .forms import UserForm
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
-
+from django.utils.crypto import get_random_string
+from django.core.urlresolvers import reverse
 
 lang_map={
 	"C++" : "CPP",
@@ -100,6 +102,23 @@ def register(request):
 	}
 	return render(request,"page/register.html",context)
 
+
+def code_link(request,id):
+	try:
+		inst=CodeHistory.objects.get(code_id=id)	#raises 'does not exist exception' if object not found in db or 'multiple..entries' if more than 1 object exist 
+		context={
+			'code' : inst.code,
+			'lang_default' : inst.lang,
+			'input' : inst.code_input,
+			'output' : inst.output,
+			'status' : inst.status,
+			'user' : request.user,
+		}
+		return render(request,"page/post.html",context)
+	except:
+		return HttpResponseRedirect("post")
+
+
 def post(request):
 	user=request.user
 	print user
@@ -146,19 +165,24 @@ def post(request):
 			context['status']='Time Limit Exceeded'
 			time_used=r.json()['run_status']['time_used']
 
+		unique_id = get_random_string(length=6)
+		
+		while CodeHistory.objects.filter(code_id=unique_id).exists():		# make sure each entry has a unique code_id
+			unique_id=get_random_string(length=6)						# .exists() works on queryset and returns True even if a single entry exists
+
 		#to save record to database, instantiate the model class 		
-		inst=CodeHistory(code=data['source'],status=run_status,time_used=time_used,lang=data['lang'],web_link=web_link,output=context['output'])
+		inst=CodeHistory(code=data['source'],status=run_status,time_used=time_used,lang=data['lang'],web_link=web_link,output=context['output'],code_id=unique_id,code_input=data['input'])
 		if user.is_authenticated():		#to store valid username corresponding to each submission, not for anonymoususer
 			inst.username=user
 		inst.save()
 		
 		#to save it directly - using model manager
 		#CodeHistory.objects.create(code=data['source'],status=run_status,time_used=time_used,lang=data['lang'],web_link=web_link,output=context['output'])
-		context['user']=user
+		#context['user']=user
 
 		request.session['lang']=reverse_lang_map.get(data['lang'],data['lang'])		# make last used language to be default lang for next time
 
-		return render(request,"page/post.html",context)
+		return HttpResponseRedirect(unique_id)
 
 	if 'lang' in request.session:
 		x=request.session['lang']

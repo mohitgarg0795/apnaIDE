@@ -1,11 +1,11 @@
 <html>
 <head>
 	<link rel="stylesheet" type="css" href="{{STATIC_URL}}/static/x.css"/>
-	<title>apnaIDE</title>
+	<title>Home | apnaIDE</title>
 	<script src="{{STATIC_URL}}/static/ace/src/ace.js"></script>
 </head>
 <body id='body'>
-	<form method="POST"> {% csrf_token %}
+	<form method="POST" action='post'> {% csrf_token %}
 		
 		{% if user.is_authenticated %}
 			<!--<h3>logged in</h3>-->
