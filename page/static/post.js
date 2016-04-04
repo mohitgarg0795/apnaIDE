@@ -89,10 +89,15 @@ function updatetextarea()
 	document.getElementById('hiddentextarea').innerHTML=editor.getValue();
 }
 
-
-document.getElementById("lang").onclick=function(){
-	lang=this.value
-	editor.setValue(source_template[lang])
+flag=lang_default		// gives the last selected lang in drop down list
+document.getElementById("lang").onchange=function(){
+	lang=this.value 		//gives the currect selected lang in drop down list
+	if(decode(document.getElementById('hiddentextarea').innerHTML)==source_template[flag])		//if code == template of last selected lang
+		{
+			flag=lang
+			editor.setValue(source_template[lang])
+			console.log("mohit")
+		}
 	lang=lang_map[lang]
 	editor.getSession().setMode("ace/mode/"+lang)
 };
