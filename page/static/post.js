@@ -92,11 +92,11 @@ function updatetextarea()
 flag=lang_default		// gives the last selected lang in drop down list
 document.getElementById("lang").onchange=function(){
 	lang=this.value 		//gives the currect selected lang in drop down list
+	//console.log(lang)
 	if(decode(document.getElementById('hiddentextarea').innerHTML)==source_template[flag])		//if code == template of last selected lang
 		{
 			flag=lang
 			editor.setValue(source_template[lang])
-			console.log("mohit")
 		}
 	lang=lang_map[lang]
 	editor.getSession().setMode("ace/mode/"+lang)
