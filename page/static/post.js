@@ -92,7 +92,6 @@ function updatetextarea()
 flag=lang_default		// gives the last selected lang in drop down list
 document.getElementById("lang").onchange=function(){
 	lang=this.value 		//gives the currect selected lang in drop down list
-	//console.log(lang)
 	if(decode(document.getElementById('hiddentextarea').innerHTML)==source_template[flag])		//if code == template of last selected lang
 		{
 			flag=lang
@@ -109,3 +108,13 @@ document.getElementById("check_input").onchange=function(){
 	else
 		document.getElementById('input').style.display='none'
 };
+
+
+document.getElementById('save').onclick=function(){
+	localStorage.saved_code=document.getElementById('hiddentextarea').innerHTML
+	window.alert("code saved successfully")
+}
+
+document.getElementById('retreive').onclick=function(){
+	editor.setValue(decode(localStorage.saved_code))
+}
