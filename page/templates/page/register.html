@@ -1,29 +1,33 @@
 <html>
 <title>Register | apnaIDE</title>
-
+<link rel="stylesheet" type="css" href="{{STATIC_URL}}/static/index.css"/>
+<link rel="stylesheet" type="css" href="{{STATIC_URL}}/static/bootstrap.min.css"/>
 <body>
-
+<nav class='navbar navbar-default'>
+    <div class="navbar-header">
+        <a class="navbar-brand" href="\">apnaIDE</a>
+    </div>
+    <ul class="nav navbar-nav pull-right"> 
+        <li><a href="post">Home</a></li> 
+        <li><a href="login">Login to your account</a></li>
+    </ul>
+</nav>
+<center>
 	{% if registered %}
 		<h4>Congrats you have successfully registered</h4><br><br>
 
-		<a href="post">Move to homepage</a><br>
-		<a href="login">Login to your account</a><br>
-
 	{% else %}
 
-		<h2>Register a new account</h2>
-		<form method="POST" >{% csrf_token %}
+        <h2><mark>Register a new account</mark></h2>
+		<hr>
+		<form method="POST" style='margin-top:10vh'>{% csrf_token %}
 		{{ forms.errors}}
 		{{ form.as_p }}
-		<input type="submit" value="Register">
+		<input type="submit" class='btn btn-success' style='margin-top:100px;' value="Register">
 		</form>
 
 	{% endif %}
-
-
-	<a href="post">Home</a><br>
-	<a href="login">Login</a>
+	
+</center>
 </body>
-
-
 </html>

@@ -1,0 +1,73 @@
+html,body {
+    width:100%;
+    height:100vh;
+    margin:0px;
+}
+
+#history {
+    width:98%;
+    font-size:15px;
+    text-align: right;
+}
+
+#start_coding {
+    margin-left:1%;
+    font-size:20px;
+    color:#bb0a28;
+}
+
+#code_area {
+    height:500px;
+    width:98%;
+    text-align: left;
+    overflow: auto;
+}
+
+#username {
+   color:#1ee688;
+   font-weight: bold;
+}
+
+#saveAndRetrieve {
+    width:100%;
+    height:40px;
+}
+
+#save,#retrieve {
+    font-size:12px;
+    margin-right: 10px;
+}
+
+#lang {
+    margin-left:1%;
+}
+
+#input {
+    display:none; 
+    width: 98%;
+    height: 100px; 
+    margin-top:20px;
+    border-radius:4px; 
+}
+
+#outputtextarea {
+    margin-top:20px;
+    width:98%;
+    height:200px;
+    overflow:auto;
+}
+
+#submit {
+    margin-left: 1%;
+}
+
+label {
+    width:200px;
+}
+
+img {
+    position: absolute;
+    margin-top:60px;
+    margin-left:-140px;
+}
+

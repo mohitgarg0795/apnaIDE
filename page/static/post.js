@@ -110,11 +110,11 @@ document.getElementById("check_input").onchange=function(){
 };
 
 
-document.getElementById('save').onclick=function(){
+/*document.getElementById('save').onclick=function(){
 	localStorage.saved_code=document.getElementById('hiddentextarea').innerHTML
 	window.alert("code saved successfully")
 }
 
 document.getElementById('retreive').onclick=function(){
 	editor.setValue(decode(localStorage.saved_code))
-}
+}*/

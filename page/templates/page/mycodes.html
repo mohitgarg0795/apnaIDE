@@ -1,26 +1,35 @@
-
 <html>
-
-<head><title>My History | apnaIDE</title></head>
+<head>
+<title>My History | apnaIDE</title>
+<link rel="stylesheet" type="css" href="{{STATIC_URL}}/static/index.css"/>
+<link rel="stylesheet" type="css" href="{{STATIC_URL}}/static/bootstrap.min.css"/>
+</head>
 
 <body>
-
-	<a href="post">Home</a><br>
-	<a href="logout">Logout</a>
-
-	<h2>recent code submissions</h2>
+<nav class='navbar navbar-default'>
+            <div class="navbar-header">
+                <a class="navbar-brand" href="\">apnaIDE</a>
+            </div>
+            <ul class="nav navbar-nav pull-right"> 
+            <li><a href="post">Home</a></li> 
+            <li><a href="logout">Logout</a></li>
+            </ul>
+</nav>
+	<h3 style='margin-left:20px;'>Recent code submissions</h3>
+	<hr>
 	{% if queryset %}
 		{% for i in queryset %}
 		<br>
-		<div style="border-radius: 25px; background: #808080; padding: 20px;  width: 200px; height: 150px; ">
-
-			Link -> <a href=http://{{ request.META.HTTP_HOST }}/{{i.code_id}}>view submission</a><br>
-			Language -> {{i.lang}}<br>
-			Status -> {{i.status}}<br>
-			Time taken -> {{i.time_used}}<br>
-			Submitted {{i.timestamp}} {{i.time_posvalue}} ago<br>
-		
-		</div>
+		<a href=http://{{ request.META.HTTP_HOST }}/{{i.code_id}} style='text-decoration:none;color:initial;'>
+            <div class="panel panel-default">
+              <div class="panel-body">
+                  <span style='font-weight:bold;'>Language:</span> {{i.lang}}<br>
+                  <span style='font-weight:bold;'>Status:</span> {{i.status}}<br>
+                  <span style='font-weight:bold;'>Time Taken:</span> {{i.time_used}}<br>
+                  Submitted <span style='text-decoration:underline'>{{i.timestamp}} {{i.time_posvalue}}</span> ago<br>
+              </div>
+            </div>
+        </a>
 		<br>
 		{% endfor %}
 	{% endif %}

@@ -1,23 +1,35 @@
 
 <html>
 <title>Login | apnaIDE</title>
-
+<link rel="stylesheet" type="css" href="{{STATIC_URL}}/static/bootstrap.min.css"/>
 <body>
-<h2>Login to your account</h2>
+<nav class='navbar navbar-default'>
+    <div class="navbar-header">
+        <a class="navbar-brand" href="\">apnaIDE</a>
+    </div>
+    <ul class="nav navbar-nav pull-right"> 
+        <li><a href="post">Home</a></li> 
+        <li><a href="register">Register a new account</a></li>
+    </ul>
+</nav>
+<center>
+    <h2><mark>Login to your account</mark></h2>
 	
-	{% if error %}
-		{{error}} <br><br>
-	{% endif %}
-
-	<form method="POST" >{% csrf_token %}
-		Enter username <input type="text" name="username" value='{{username}}' ></input><br>
-		Enter password <input type="password" name="password" value='{{password}}' ></input><br><br>
-		<input type="submit" value="LOGIN">
+	<hr>
+	
+	<form method="POST" style='margin-top:20vh;'>{% csrf_token %}
+		<span style='font-weight:bold'>Enter username</span> 
+		<input type="text" name="username" style='margin-left:20px;' value='{{username}}' ></input><br><br>
+		<span style='font-weight:bold'>Enter password</span> 
+		<input type="password" name="password" style='margin-left:20px;' value='{{password}}' ></input><br><br>
+		<input type="submit" class='btn btn-success' value="LogIn">
 	</form>
-
-	<a href="post">Home</a><br>
-	<a href="register">Register a new account</a>
-
+    <span style='color:#af2121'>
+    {% if error %}
+    {{error}} <br><br>
+    {% endif %}
+    </span>
+</center>
 </body>
 
 

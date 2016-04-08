@@ -1,59 +1,79 @@
 <html>
 <head>
-	<link rel="stylesheet" type="css" href="{{STATIC_URL}}/static/x.css"/>
 	<title>Home | apnaIDE</title>
+	<link rel="stylesheet" type="css" href="{{STATIC_URL}}/static/index.css"/>
+    <link rel="stylesheet" type="css" href="{{STATIC_URL}}/static/bootstrap.min.css"/>
 	<script src="{{STATIC_URL}}/static/ace/src/ace.js"></script>
 </head>
 <body id='body'>
 	<form method="POST" action='post'> {% csrf_token %}
-		
+        <nav class='navbar navbar-default'>
+            <div class="navbar-header">
+                <a class="navbar-brand" href="\">apnaIDE</a>
+            </div>
+            <ul class="nav navbar-nav pull-right"> 
+            
 		{% if user.is_authenticated %}
-			<!--<h3>logged in</h3>-->
-			Welcome, {{ user }} <br><br>
-
-			<a href="post">Home</a><br><br>
-			<a href="mycodes">My recent codes</a><br><br>
-			<a href="changepassword">Change Password</a><br>
-			<a href="logout">logout</a><br><br>
+            <li><a>Welcome, <span id="username">{{ user }}</span></a></li>
+            <li class="active"><a href="post">Home</a></li>
+            <li><a href="mycodes">My Recent Codes</a></li>
+            <li><a href="changepassword">Change Password</a></li> 
+            <li><a href="logout">Logout</a></li>
 		{% else %}
-			<!--<h3> logged out</h3>-->
-			<a href="post">Home</a><br><br>
-			<a href="login">LOGIN</a><br>
-			<a href="register">REGISTER</a><br>
+		    <li class="active"><a href="post">Home</a></li>
+            <li><a href="login">Login</a></li> 
+            <li><a href="register">Register</a></li>
 		{% endif %}
-
-		<a href="history">see previous submissions</a><br>
-
-		<h4>Code : </h4>
-		<button type='button' id='save'>Save Code</button>
-		<button type='button' id='retreive'>Retreive Last Saved Code</button><br><br>
-		<div id="code_area" style="height: 400px; width: 700px; overflow: auto">
-		</div>
+            </ul>
+        </nav>
+        <center>
+            <div id='history'> 
+                <a href="history"><code>View All Submissions</code></a>
+            </div>
+        </center>
+		<div id='start_coding'>Start Coding</div>
+		<hr>
+        <div id="saveAndRetrieve">
+            <select name='language' id="lang">
+                <option>C</option>
+                <option>C++</option>
+                <option>C++ 11</option>
+                <option>JAVA</option>
+                <option>PYTHON</option>
+                <option>JAVASCRIPT</option>
+                <option>PHP</option>
+                <option>HASKELL</option>
+                <option>RUBY</option>
+                <option>CLOJURE</option>
+                <option>C#</option>
+                <option>PERL</option>
+		    </select>
+		    <!--<button class='btn btn-primary pull-right' type='button' id='save'>Save Code</button>
+		    <button class='btn btn-warning pull-right' type='button' id='retrieve'>Retrieve Last Saved Code</button><br><br>-->
+        </div>
+        <center>
+		    <div id="code_area"></div>
+        </center>
 		<textarea name='code' id='hiddentextarea' style="display:none">{{code}}</textarea><br>
 		<textarea name='language' id='hiddenlang' style="display:none">{{lang_default}}</textarea><br>
-		<input type="checkbox" id="check_input">select to enter input</input><br>
-		<textarea name='input' id='input' style="display:none; height: 100px; width: 700px;">{{input}}</textarea><br>
-		<select name='language' id="lang">
-		<option>C</option>
-		<option>C++</option>
-		<option>C++ 11</option>
-		<option>JAVA</option>
-		<option>PYTHON</option>
-		<option>JAVASCRIPT</option>
-		<option>PHP</option>
-		<option>HASKELL</option>
-		<option>RUBY</option>
-		<option>CLOJURE</option>
-		<option>C#</option>
-		<option>PERL</option>
-		</select>
-		<br>
-		<input type='submit' value='Compile and Run'></input>
+		<center>
+            <div id="inputAndSubmit">
+		        <input type='submit' id="submit" class='btn btn-success pull-left' value='Compile and Run'></input>
+            <span style="float:right;margin-right:2%;font-size:18px"><kbd>Custom Input</kbd></span>
+		        <input type="checkbox" id="check_input" style='float:right;margin-right:4px'></input>
+            </div>
+            <textarea name='input' id='input' placeholder="Enter Input">{{input}}</textarea><br>
+        </center>
 	</form>
-	<h4 id='status'>STATUS</h4>
-	<div id='status'>{{status}}</div>
-	<h4 id='output' style='display:none'><br>OUTPUT<br></h4>
-	<textarea id='outputtextarea' readonly rows='10' cols='95' style="display:none">{{output}}</textarea>
+	<br>
+	<hr>
+    <h4 id='status' style='margin-left:1%;'>STATUS:</h4>
+    <div id='status' style='display:inline;font-size:18px;border-bottom:1px dashed black;'><code>{{status}}</code></div>
+	<hr>
+    <h4 id='output' style='display:none;margin-left:1%;'>OUTPUT</h4>
+    <center>    
+	    <textarea id='outputtextarea' readonly style="display:none">{{output}}</textarea>
+    </center>
 <script src="{{STATIC_URL}}/static/post.js"></script>
 </body>
 </html>
