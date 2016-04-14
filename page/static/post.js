@@ -89,7 +89,7 @@ function updatetextarea()
 	document.getElementById('hiddentextarea').innerHTML=editor.getValue();
 }
 
-flag=lang_default		// gives the last selected lang in drop down list
+flag=lang_default		// gives the latest selected lang in drop down list
 document.getElementById("lang").onchange=function(){
 	lang=this.value 		//gives the currect selected lang in drop down list
 	if(decode(document.getElementById('hiddentextarea').innerHTML)==source_template[flag])		//if code == template of last selected lang

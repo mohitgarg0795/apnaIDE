@@ -1,5 +1,5 @@
 
-from django.shortcuts import render,redirect,get_object_or_404
+from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 from hack import *
 from models import CodeHistory
@@ -70,7 +70,7 @@ def login_user(request):
 #@login_required(redirect_field_name="login")
 @login_required(login_url="/login")
 def logout_user(request):
-	logout(request)
+	logout(request)						#doesnt give any error if user isn't logged in, just all session data is erased
 	return HttpResponseRedirect("post")
 
 
@@ -93,7 +93,7 @@ def register(request):
 		else:
 			return render(request,"page/register.html",{'form':form})
 
-	if request.user.is_authenticated():
+	if request.user.is_authenticated():				#alternative to login_required decorator
 		return HttpResponseRedirect('post')
 
 	form=UserForm()
@@ -129,7 +129,6 @@ def post(request):
 			data['source']=' ' 
 		data['lang']=request.POST.get('language')
 		data['input']=request.POST.get('input')
-
 		context={
 			'code':data['source'],
 			'lang_default':data['lang'],
@@ -138,7 +137,7 @@ def post(request):
 
 		if data['lang'] in lang_map:
 			data['lang']=lang_map[data['lang']]
-
+			
 		r = requests.post(RUN_URL, data=data)
 		#print r.json()
 
@@ -182,7 +181,7 @@ def post(request):
 
 		request.session['lang']=context['lang_default']#reverse_lang_map.get(data['lang'],data['lang'])		# make last used language to be default lang for next time
 
-		return HttpResponseRedirect(unique_id)
+		return HttpResponseRedirect(unique_id)		#to redirect to a specific url
 
 	if 'lang' in request.session:
 		x=request.session['lang']

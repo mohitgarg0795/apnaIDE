@@ -1,11 +1,11 @@
-<html>
-<head>
-<title>My History | apnaIDE</title>
-<link rel="stylesheet" type="css" href="{{STATIC_URL}}/static/index.css"/>
-<link rel="stylesheet" type="css" href="{{STATIC_URL}}/static/bootstrap-3.3.6-dist/css/bootstrap.min.css"/>
-</head>
+{% extends "page/base.html" %}
 
-<body>
+{% load staticfiles %}
+
+{% block title %}My History{% endblock %}
+
+{% block body %}
+
 <nav class='navbar navbar-default'>
             <div class="navbar-header">
                 <a class="navbar-brand" href="\">apnaIDE</a>
@@ -15,12 +15,12 @@
             <li><a href="logout">Logout</a></li>
             </ul>
 </nav>
-	<h3 style='margin-left:20px;'>Recent code submissions</h3>
-	<hr>
-	{% if queryset %}
-		{% for i in queryset %}
-		<br>
-		<a href=http://{{ request.META.HTTP_HOST }}/{{i.code_id}} style='text-decoration:none;color:initial;'>
+  <h3 style='margin-left:20px;'>Recent code submissions</h3>
+  <hr>
+  {% if queryset %}
+    {% for i in queryset %}
+    <br>
+    <a href=http://{{ request.META.HTTP_HOST }}/{{i.code_id}} style='text-decoration:none;color:initial;'>
             <div class="panel panel-default">
               <div class="panel-body">
                   <span style='font-weight:bold;'>Language:</span> {{i.lang}}<br>
@@ -30,9 +30,8 @@
               </div>
             </div>
         </a>
-		<br>
-		{% endfor %}
-	{% endif %}
-</body>
+    <br>
+    {% endfor %}
+  {% endif %}
 
-</html>
+{% endblock %}

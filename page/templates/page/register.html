@@ -1,8 +1,11 @@
-<html>
-<title>Register | apnaIDE</title>
-<link rel="stylesheet" type="css" href="{{STATIC_URL}}/static/index.css"/>
-<link rel="stylesheet" type="css" href="{{STATIC_URL}}/static/bootstrap-3.3.6-dist/css/bootstrap.min.css"/>
-<body>
+{% extends "page/base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+
 <nav class='navbar navbar-default'>
     <div class="navbar-header">
         <a class="navbar-brand" href="\">apnaIDE</a>
@@ -29,5 +32,5 @@
 	{% endif %}
 	
 </center>
-</body>
-</html>
+
+{% endblock %}

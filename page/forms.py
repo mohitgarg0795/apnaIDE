@@ -1,3 +1,4 @@
+
 from django import forms
 from django.contrib.auth.models import User
 from captcha.fields import CaptchaField
@@ -19,15 +20,21 @@ class UserForm(forms.ModelForm):
 
 	class Meta:
 		model=User
-		fields=('username','email','password')
+		fields=('username','email','password')		#tuple of fields to be included in the form
 	
-	def clean(self):
+	def clean(self):		#performs cross field/multiple fields validation
 		if self.cleaned_data.get('password')!=self.cleaned_data.get('repassword'):
 			raise forms.ValidationError("Passwords do not match.")
-		return self.cleaned_data
+		return self.cleaned_data		#this is the final cleaned_data that is processed further, u can return any values here as u wish
 
 	def clean_username(self):
 		new_user=self.cleaned_data['username']
-		if User.objects.all().filter(username=new_user):
+		if User.objects.all().filter(username=new_user).exists():
 			raise forms.ValidationError("This username already exists, please choose another one")
 		return new_user
+
+	def clean_email(self):
+		mail_id=self.cleaned_data['email']
+		if User.objects.all().filter(email=mail_id).exists():
+			raise forms.ValidationError("This email id already exists, please use another one")
+		return mail_id

@@ -1,0 +1,13 @@
+<html>
+
+<head>
+	<title>{% block title %}{% endblock %} | apnaIDE</title>
+	<link rel="stylesheet" type="css" href="{{STATIC_URL}}/static/index.css"/>
+    <link rel="stylesheet" type="css" href="{{STATIC_URL}}/static/bootstrap-3.3.6-dist/css/bootstrap.min.css"/>
+</head>
+
+<body {% block body_id %}{% endblock %}>
+	{% block body %}{% endblock %}
+</body>
+
+</html>

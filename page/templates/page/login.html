@@ -1,8 +1,11 @@
+{% extends "page/base.html" %}
 
-<html>
-<title>Login | apnaIDE</title>
-<link rel="stylesheet" type="css" href="{{STATIC_URL}}/static/bootstrap-3.3.6-dist/css/bootstrap.min.css"/>
-<body>
+{% load staticfiles %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+
 <nav class='navbar navbar-default'>
     <div class="navbar-header">
         <a class="navbar-brand" href="\">apnaIDE</a>
@@ -14,23 +17,21 @@
 </nav>
 <center>
     <h2><mark>Login to your account</mark></h2>
-	
-	<hr>
-	
-	<form method="POST" style='margin-top:20vh;'>{% csrf_token %}
-		<span style='font-weight:bold'>Enter username</span> 
-		<input type="text" name="username" style='margin-left:20px;' value='{{username}}' ></input><br><br>
-		<span style='font-weight:bold'>Enter password</span> 
-		<input type="password" name="password" style='margin-left:20px;' value='{{password}}' ></input><br><br>
-		<input type="submit" class='btn btn-success' value="LogIn">
-	</form>
+    
+    <hr>
+    
+    <form method="POST" style='margin-top:20vh;'>{% csrf_token %}
+        <span style='font-weight:bold'>Enter username</span> 
+        <input type="text" name="username" style='margin-left:20px;' value='{{username}}' ></input><br><br>
+        <span style='font-weight:bold'>Enter password</span> 
+        <input type="password" name="password" style='margin-left:20px;' value='{{password}}' ></input><br><br>
+        <input type="submit" class='btn btn-success' value="LogIn">
+    </form>
     <span style='color:#af2121'>
     {% if error %}
     {{error}} <br><br>
     {% endif %}
     </span>
 </center>
-</body>
 
-
-</html>
+{% endblock %}

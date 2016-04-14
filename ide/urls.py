@@ -30,5 +30,5 @@ urlpatterns = [
     url(r'^changepassword$',page_views.change_password),
     url(r'^captcha/', include('captcha.urls')),
     url(r'^(?P<id>[a-zA-Z0-9]{6})$', page_views.code_link),
-    url(r'^', RedirectView.as_view(url='/post')),
+    url(r'^', RedirectView.as_view(url='/post')),       #it redirects to a given url
 ]
