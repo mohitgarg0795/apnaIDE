@@ -1,6 +1,9 @@
+var url=window.location.pathname
+
+
 var send_text=function(){
 	var text=$('#textpad').val()
-	$.get('AAAAAA', {text: text}, function(data){
+	$.get('AAAAAA', {text: text, url : url}, function(data){
                $('#textpad').html(data);
                $('#likes').hide();
     });
@@ -8,7 +11,7 @@ var send_text=function(){
 
 
 var receive_text=function(){
-	$.get('AAAAAA', {text: '1@$AS3^7#fjksjfkslj&&%$&!##'}, function(data){
+	$.get('AAAAAA', {text: '1@$AS3^7#fjksjfkslj&&%$&!##', url: url}, function(data){
 				console.log(data)
 				if(data!='1@$AS3^7#fjksjfkslj&&%$&!##')
                		$('#textpad').val(data);

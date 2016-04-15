@@ -243,18 +243,26 @@ def change_password(request):
 	return render(request,"page/changepassword.html",{})
 
 
-def textpad_display(request):
+def textpad_display(request,id=None):
 	
-	request.session['id']=request.session._get_or_create_session_key()
-	#print request.session['id']
-	return render(request,"page/textpad.html",{})
+	if id==None:
+		request.session['id']=request.session._get_or_create_session_key()
+		unique_id = get_random_string(length=5)
+		while Textpaduser.objects.filter(url_id=unique_id).exists():	
+				unique_id=get_random_string(length=5)
+
+		Textpaduser.objects.create(text='',unique_id='',url_id=unique_id)
+		return HttpResponseRedirect(unique_id)
+
+	inst=Textpaduser.objects.get(url_id=id)
+	return render(request,"page/textpad.html",{ 'text' : '' })
 
 def textpad(request):
 		
 	#print request.session['id']	
 	if request.GET['text']!='1@$AS3^7#fjksjfkslj&&%$&!##':			# request for writing
-
-		inst=Textpaduser.objects.get()
+		id=request.GET['url'][1:]
+		inst=Textpaduser.objects.get(url_id=id)
 		inst.text=request.GET['text']
 		inst.unique_id=request.session['id']
 		print request.GET['text'],"received"
@@ -262,8 +270,8 @@ def textpad(request):
 		return HttpResponse(inst.text)
 	
 	else:								# request for retreival
-	
-		inst=Textpaduser.objects.get()
+		id=request.GET['url'][1:]
+		inst=Textpaduser.objects.get(url_id=id)
 		if inst.unique_id==request.session['id']:	
 			return HttpResponse('1@$AS3^7#fjksjfkslj&&%$&!##')
 		return HttpResponse(inst.text)

@@ -18,6 +18,7 @@
         {% if user.is_authenticated %}
             <li><a>Welcome, <span id="username">{{ user }}</span></a></li>
             <li class="active"><a href="post">Home</a></li>
+            <li><a href={% url 'page.views.textpad_display' %}>Textpad</a></li>
             <li><a href="mycodes">My Recent Codes</a></li>
             <li><a href="changepassword">Change Password</a></li> 
             <li><a href="logout">Logout</a></li>
