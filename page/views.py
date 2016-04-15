@@ -2,7 +2,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 from hack import *
-from models import CodeHistory
+from models import CodeHistory,Textpaduser
 from django.utils import timezone
 from .forms import UserForm
 from django.contrib.auth.hashers import make_password
@@ -241,3 +241,29 @@ def change_password(request):
 			return render(request,"page/changepassword.html",{ 'error' : "Passwords don't match, please try again"})
 
 	return render(request,"page/changepassword.html",{})
+
+
+def textpad_display(request):
+	
+	request.session['id']=request.session._get_or_create_session_key()
+	#print request.session['id']
+	return render(request,"page/textpad.html",{})
+
+def textpad(request):
+		
+	#print request.session['id']	
+	if request.GET['text']!='1@$AS3^7#fjksjfkslj&&%$&!##':			# request for writing
+
+		inst=Textpaduser.objects.get()
+		inst.text=request.GET['text']
+		inst.unique_id=request.session['id']
+		print request.GET['text'],"received"
+		inst.save(update_fields=['text','unique_id'])
+		return HttpResponse(inst.text)
+	
+	else:								# request for retreival
+	
+		inst=Textpaduser.objects.get()
+		if inst.unique_id==request.session['id']:	
+			return HttpResponse('1@$AS3^7#fjksjfkslj&&%$&!##')
+		return HttpResponse(inst.text)

@@ -18,6 +18,11 @@ class CodeHistory(models.Model):
 
 	def __unicode__(self):
 		return self.web_link
+
+class Textpaduser(models.Model):
+	text=models.TextField()
+	unique_id=models.CharField(max_length=100)
+	
 """
 	class Meta:			#to order the queryset directly or use .order_by() in the views while querying
 		ordering=['-id']
