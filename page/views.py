@@ -265,7 +265,7 @@ def textpad(request):
 		inst=Textpaduser.objects.get(url_id=id)
 		inst.text=request.GET['text']
 		inst.unique_id=request.session['id']
-		print request.GET['text'],"received"
+		#print request.GET['text'],"received"
 		inst.save(update_fields=['text','unique_id'])
 		return HttpResponse(inst.text)
 	

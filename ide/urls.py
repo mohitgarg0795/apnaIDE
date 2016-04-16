@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^login$',page_views.login_user),
     url(r'^logout$',page_views.logout_user),
     url(r'^mycodes$',page_views.mycodes),
-    url(r'^AAAAAA$',page_views.textpad),
+    url(r'^ajaxtextpadcall$',page_views.textpad),
     url(r'^textpad$',page_views.textpad_display),
     url(r'^changepassword$',page_views.change_password),
     url(r'^captcha/', include('captcha.urls')),
