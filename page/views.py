@@ -257,7 +257,7 @@ def textpad_display(request,id=None):
 		return HttpResponseRedirect(unique_id)
 
 	inst=Textpaduser.objects.get(url_id=id)
-	return render(request,"page/textpad.html",{ 'text' : '' })
+	return render(request,"page/textpad.html",{ 'text' : inst.text })
 
 def textpad(request):
 
