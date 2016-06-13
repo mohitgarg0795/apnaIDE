@@ -18,18 +18,17 @@
         {% if user.is_authenticated %}
             <li><a>Welcome, <span id="username">{{ user }}</span></a></li>
             <li class="active"><a href="post">Home</a></li>
-            <li><a href={% url 'page.views.textpad_display' %}>Textpad</a></li>
             <li><a href="mycodes">My Recent Codes</a></li>
             <li><a href="changepassword">Change Password</a></li> 
             <li><a href="logout">Logout</a></li>
         {% else %}
             <li class="active"><a href="post">Home</a></li>
-            <li><a href={% url 'page.views.textpad_display' %}>Textpad</a></li>
             <li><a href="login">Login</a></li> 
             <li><a href="register">Register</a></li>
         {% endif %}
             </ul>
         </nav>
+        
         <center>
             <div id='history'> 
                 <a href="history"><code>View All Submissions</code></a>
@@ -52,34 +51,42 @@
                 <option>C#</option>
                 <option>PERL</option>
             </select>
-            <!--<button class='btn btn-primary pull-right' type='button' id='save'>Save Code</button>
-            <button class='btn btn-warning pull-right' type='button' id='retrieve'>Retrieve Last Saved Code</button><br><br>-->
-        </div>
-        <center>
-            <div id="code_area"></div>
-        </center>
-        <textarea name='code' id='hiddentextarea' style="display:none">{{code}}</textarea><br>
-        <textarea id='hiddenlang' style="display:none">{{lang_default}}</textarea><br>
-        <center>
-            <div id="inputAndSubmit">
-                <input type='submit' id="submit" class='btn btn-success pull-left' value='Compile and Run'></input>
+            <select name='theme' id="theme">
+                <option>monokai</option>
+                <option>terminal</option>
+                <option>chrome</option>
+                <option>xcode</option>
+            </select>
             <span style="float:right;margin-right:2%;font-size:18px"><kbd>Custom Input</kbd></span>
                 <input type="checkbox" id="check_input" style='float:right;margin-right:4px'></input>
-            </div>
-            <textarea name='input' id='input' placeholder="Enter Input">{{input}}</textarea><br>
-        </center>
-    </form>
+            <input type='submit' id="submit" class='btn btn-success pull-right' style="margin-right: 1%" value='Compile and Run'></input>
+            <button class='btn btn-primary pull-right' type='button' id='downloadCode' style="margin-right: 1%">Download Code as File</button>
+            <button class='btn btn-primary pull-right' type='button' id='insertTemplate' style="margin-right: 1%">Insert Template</button>
+         <!--   <button class='btn btn-warning pull-right' type='button' id='retrieve'>Retrieve Last Saved Code</button><br><br>-->
+        </div>
+        <!--<center>-->
+        <div>
+            <div id="code_area"></div>
+            <textarea name='input' id='input' placeholder="Enter Input">{{input}}</textarea>
+        </div>
+        <!--</center>-->
+        <textarea name='code' id='hiddentextarea' style="display:none">{{code}}</textarea><br>
+        <textarea id='hiddenlang' style="display:none">{{lang_default}}</textarea><br>
+        <textarea id='hiddentheme' style="display:none">{{theme}}</textarea><br>
+</form>
 
     <br>
     <hr>
-    <h4 id='status' style='margin-left:1%;'>STATUS:</h4>
-    <div id='status' style='display:inline;font-size:18px;border-bottom:1px dashed black;'><code>{{status}}</code></div>
+    <div id='status_focus'></div>
+    <h4 id='status' style='margin-left:1%; display: none;'>STATUS:</h4>
+    <div id='status' style='display:inline;font-size:20px;border-bottom:1px dashed black;'><code>{{status}}</code></div>
     <hr>
     <h4 id='output' style='display:none;margin-left:1%;'>OUTPUT</h4>
 
     <center>    
         <textarea id='outputtextarea' readonly style="display:none">{{output}}</textarea>
     </center>
+
 <script src="{{STATIC_URL}}/static/ace/src/ace.js"></script>
 <script src="{{STATIC_URL}}/static/post.js"></script>
 

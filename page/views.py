@@ -1,8 +1,7 @@
-
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 from hack import *
-from models import CodeHistory,Textpaduser
+from models import CodeHistory#,Textpaduser
 from django.utils import timezone
 from .forms import UserForm
 from django.contrib.auth.hashers import make_password
@@ -114,6 +113,12 @@ def code_link(request,id):
 			'status' : inst.status,
 			'user' : request.user,
 		}
+
+		if 'theme' in request.session:
+			context['theme']=request.session['theme']
+		else:
+			context['theme']='monokai'
+		
 		return render(request,"page/post.html",context)
 	except:
 		return HttpResponseRedirect("post")
@@ -141,7 +146,7 @@ def post(request):
 		r = requests.post(RUN_URL, data=data)
 		#print r.json()
 
-		run_status=r.json()['run_status']['status']
+		run_status=r.json()['run_status']['status']	
 		web_link=r.json()['web_link']				
 
 		if run_status=="AC":	
@@ -180,7 +185,7 @@ def post(request):
 		#context['user']=user
 
 		request.session['lang']=context['lang_default']#reverse_lang_map.get(data['lang'],data['lang'])		# make last used language to be default lang for next time
-
+		request.session['theme']=request.POST.get('theme')
 		return HttpResponseRedirect(unique_id)		#to redirect to a specific url
 
 	if 'lang' in request.session:
@@ -188,11 +193,17 @@ def post(request):
 	else:
 		x='C'
 
+	if 'theme' in request.session:
+		y=request.session['theme']
+	else:
+		y='monokai'
+		
 	return render(request,"page/post.html",{'code':'',
 											'lang_default': x,
 											'input':'',
 											'status':'',
 											'user':user,
+											'theme':y,
 											})
 
 
@@ -242,7 +253,7 @@ def change_password(request):
 
 	return render(request,"page/changepassword.html",{})
 
-
+"""
 def textpad_display(request,id=None):
 	
 	if 'user_id' not in request.session :
@@ -276,3 +287,4 @@ def textpad(request):
 		if inst.unique_id==request.session['user_id']:	
 			return HttpResponse('1@$AS3^7#fjksjfkslj&&%$&!##')
 		return HttpResponse(inst.text)
+"""

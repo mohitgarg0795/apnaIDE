@@ -1,4 +1,3 @@
-
 from __future__ import unicode_literals
 
 from django.db import models
@@ -19,14 +18,14 @@ class CodeHistory(models.Model):
 	def __unicode__(self):
 		return self.web_link
 
-class Textpaduser(models.Model):
+"""class Textpaduser(models.Model):
 	text=models.TextField()
 	unique_id=models.CharField(max_length=100)
 	url_id=models.CharField(max_length=5)
 
 	def __unicode__(self):
 		return self.url_id
-		
+	"""	
 """
 	class Meta:			#to order the queryset directly or use .order_by() in the views while querying
 		ordering=['-id']

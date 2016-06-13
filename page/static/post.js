@@ -1,5 +1,4 @@
 editor = ace.edit('code_area');
-editor.setTheme('ace/theme/monokai');
 editor.$blockScrolling=Infinity
 editor.setShowPrintMargin(false);
 
@@ -55,8 +54,14 @@ public static void main (String[] args) throws java.lang.Exception\n\t{\n\t\t// 
 }
 
 lang_default=document.getElementById('hiddenlang').innerHTML
+theme_default=document.getElementById('hiddentheme').innerHTML
+
+editor.setTheme('ace/theme/'+theme_default);
 document.getElementById("lang").value=lang_default
+document.getElementById("theme").value=theme_default
 editor.getSession().setMode("ace/mode/"+lang_map[lang_default])
+
+
 
 window.onload=function(){
 	if(!document.getElementById('hiddentextarea').innerHTML)	//its a new compilation request page
@@ -69,19 +74,43 @@ window.onload=function(){
 		}
 	else														//else its output of a code, so focus on the output
 		{
-			document.getElementById('output').style.display='initial'
-			document.getElementById('outputtextarea').style.display='initial'
-			document.getElementById('outputtextarea').focus()
+			if(document.getElementById('outputtextarea').innerHTML!=''){
+				document.getElementById('output').style.display='initial'
+				document.getElementById('outputtextarea').style.display='initial'
+			}
+			else
+				document.getElementById('status_focus').scrollIntoView()
 			document.getElementById('status').style.display='initial'
 			editor.setValue(decode(document.getElementById('hiddentextarea').innerHTML));
 		}
+}
+
+temp_input=''
+function input_check()
+{
+	flag=document.getElementById("check_input").checked
+	if(flag){
+		document.getElementById('code_area').style.width='73%'
+		document.getElementById('input').style.display='initial';
+		document.getElementById('input').innerHTML=temp_input;		//put temporarily saved input into the textbox
+	}
+	else{
+		document.getElementById('code_area').style.width='98%';
+		temp_input=document.getElementById('input').innerHTML;		//save the current input to show it next time textbox is selected
+		document.getElementById('input').style.display='none'
+		document.getElementById('input').innerHTML='';				//clear the current data in textbox to put input to program = null
+	}
 }
 
 if(document.getElementById("input").innerHTML)
 	{
 		document.getElementById("input").style.display='initial'
 		document.getElementById("check_input").checked=true
+		temp_input=document.getElementById('input').innerHTML;
+		input_check();
 	}
+
+document.getElementById("check_input").addEventListener('change',input_check)
 
 editor.on('change',updatetextarea);
 function updatetextarea()
@@ -101,13 +130,79 @@ document.getElementById("lang").onchange=function(){
 	editor.getSession().setMode("ace/mode/"+lang)
 };
 
-document.getElementById("check_input").onchange=function(){
-	flag=this.checked
-	if(flag)
-		document.getElementById('input').style.display='initial'
-	else
-		document.getElementById('input').style.display='none'
+document.getElementById("theme").onchange=function(){
+	editor.setTheme('ace/theme/'+this.value);
 };
+
+document.getElementById("downloadCode").onclick=function(){      
+// grab the content of the form field and place it into a variable
+    var textToWrite = editor.getValue();
+//  create a new Blob (html5 magic) that contains the data from your form feild
+    var textFileAsBlob = new Blob([textToWrite], {type:'text/plain'});
+// Specify the name of the file to be saved
+	
+	lang_extension={
+		"C":".c",
+		"C++":".cpp",
+		"C++ 11":".cpp",
+		"CLOJURE":".clj",
+		"C#":".cs",
+		"JAVA":".java",
+		"JAVASCRIPT":".js",
+		"HASKELL":".hs",
+		"PERL":".pl",
+		"PHP":".php",
+		"PYTHON":".py",
+		"RUBY":".rb"
+	}
+
+	var filename=prompt("Enter name of file to be saved : ")
+	if(filename==null)
+			return 
+
+    var fileNameToSaveAs = filename+lang_extension[document.getElementById("lang").value];
+
+// create a link for our script to 'click'
+    var downloadLink = document.createElement("a");
+//  supply the name of the file (from the var above).
+// you could create the name here but using a var
+// allows more flexability later.
+    downloadLink.download = fileNameToSaveAs;
+// provide text for the link. This will be hidden so you
+// can actually use anything you want.
+    downloadLink.innerHTML = "My Hidden Link";
+    
+// allow our code to work in webkit & Gecko based browsers
+// without the need for a if / else block.
+    window.URL = window.URL || window.webkitURL;
+          
+// Create the link Object.
+    downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+// when link is clicked call a function to remove it from
+// the DOM in case user wants to save a second file.
+    downloadLink.onclick = destroyClickedElement;
+// make sure the link is hidden.
+    downloadLink.style.display = "none";
+// add the link to the DOM
+    document.body.appendChild(downloadLink);
+    
+// click the new link
+    downloadLink.click();
+}
+
+function destroyClickedElement(event)
+{
+// remove the link from the DOM
+    document.body.removeChild(event.target);
+}
+
+
+document.getElementById("insertTemplate").onclick=function(){
+	editor.setValue(source_template[document.getElementById("lang").value])
+}
+
+
+// EOF
 
 
 /*document.getElementById('save').onclick=function(){

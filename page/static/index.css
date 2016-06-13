@@ -17,10 +17,25 @@ html,body {
 }
 
 #code_area {
-    height:500px;
-    width:98%;
+    height:350px;
+    width: 98%;
+    margin-left: 1%;
+    margin-bottom: 5%;
+    margin-top: 1%;
     text-align: left;
-    overflow: auto;
+    float: left;
+    box-shadow: -1px 1px 5px #888888;
+}
+
+#input {
+    float: right; 
+    margin-right: 1%;
+    margin-top: 1%;
+    margin-bottom: 5%;
+    width: 24%;
+    height: 350px; 
+    display: none;
+    border-radius:2px; 
 }
 
 #username {
@@ -39,26 +54,24 @@ html,body {
 }
 
 #lang {
+    height:80%;
+    width:10%;
     margin-left:1%;
 }
 
-#input {
-    display:none; 
-    width: 98%;
-    height: 100px; 
-    margin-top:20px;
-    border-radius:4px; 
+#theme {
+    height:82%;
+    width:10%;
+    margin-left:3%;
 }
 
 #outputtextarea {
     margin-top:20px;
     width:98%;
     height:200px;
+    border-radius: 5px;
+    margin-bottom: 15px;
     overflow:auto;
-}
-
-#submit {
-    margin-left: 1%;
 }
 
 label {

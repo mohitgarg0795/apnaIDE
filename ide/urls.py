@@ -27,11 +27,11 @@ urlpatterns = [
     url(r'^login$',page_views.login_user),
     url(r'^logout$',page_views.logout_user),
     url(r'^mycodes$',page_views.mycodes),
-    url(r'^ajaxtextpadcall$',page_views.textpad),
-    url(r'^textpad$',page_views.textpad_display),
+    #url(r'^ajaxtextpadcall$',page_views.textpad),
+    #url(r'^textpad$',page_views.textpad_display),
     url(r'^changepassword$',page_views.change_password),
     url(r'^captcha/', include('captcha.urls')),
-    url(r'^(?P<id>[a-zA-Z0-9]{5})$', page_views.textpad_display),
+    #url(r'^(?P<id>[a-zA-Z0-9]{5})$', page_views.textpad_display),
     url(r'^(?P<id>[a-zA-Z0-9]{6})$', page_views.code_link),
     url(r'^', RedirectView.as_view(url='/post')),       #it redirects to a given url
 ]
