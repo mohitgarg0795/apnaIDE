@@ -112,13 +112,9 @@ def code_link(request,id):
 			'output' : inst.output,
 			'status' : inst.status,
 			'user' : request.user,
+			'theme' : request.session.get('theme','monokai'),
+			'mode' : request.session.get('mode','public'),
 		}
-
-		if 'theme' in request.session:
-			context['theme']=request.session['theme']
-		else:
-			context['theme']='monokai'
-		
 		return render(request,"page/post.html",context)
 	except:
 		return HttpResponseRedirect("post")
@@ -138,11 +134,19 @@ def post(request):
 			'code':data['source'],
 			'lang_default':data['lang'],
 			'input':data['input'],
+			'mode' : request.POST['mode'],
+			'theme' : request.POST['theme']
 		}
 
 		if data['lang'] in lang_map:
 			data['lang']=lang_map[data['lang']]
-			
+		
+
+		#save details of the current session of the user
+		request.session['lang']=context['lang_default']  #reverse_lang_map.get(data['lang'],data['lang'])		# make last used language to be default lang for next time
+		request.session['theme']=request.POST['theme']
+		request.session['mode']=request.POST['mode']
+		
 		r = requests.post(RUN_URL, data=data)
 		#print r.json()
 
@@ -151,23 +155,29 @@ def post(request):
 
 		if run_status=="AC":	
 			context['output']=r.json()['run_status']['output']
-			context['status']='Successful'
+			context['status'] = "AC"
 			time_used=r.json()['run_status']['time_used']
 
 		if run_status=="CE":
 			context['output']=r.json()['compile_status']
-			context['status']='Compilation Error'
+			context['status'] = "CE"
 			time_used=0.0
 
 		if run_status=="RE":
 			context['output']=r.json()['run_status']['stderr']
-			context['status']='Runtime Error'
+			context['status'] = "RE"
 			time_used=r.json()['run_status']['time_used']
 
 		if run_status=="TLE":
 			context['output']=r.json()['run_status']['output']
-			context['status']='Time Limit Exceeded'
+			context['status'] = "TLE"
 			time_used=r.json()['run_status']['time_used']
+
+
+		if request.session['mode']=="private":
+			context['user'] = request.user,
+			return render(request, "page/post.html", context)		
+
 
 		unique_id = get_random_string(length=6)
 		
@@ -184,26 +194,19 @@ def post(request):
 		#CodeHistory.objects.create(code=data['source'],status=run_status,time_used=time_used,lang=data['lang'],web_link=web_link,output=context['output'])
 		#context['user']=user
 
-		request.session['lang']=context['lang_default']#reverse_lang_map.get(data['lang'],data['lang'])		# make last used language to be default lang for next time
-		request.session['theme']=request.POST.get('theme')
 		return HttpResponseRedirect(unique_id)		#to redirect to a specific url
 
-	if 'lang' in request.session:
-		x=request.session['lang']
-	else:
-		x='C'
+	lang_default = request.session.get('lang','C')
+	theme = request.session.get('theme','monokai')
+	mode = request.session.get('mode','public')	
 
-	if 'theme' in request.session:
-		y=request.session['theme']
-	else:
-		y='monokai'
-		
 	return render(request,"page/post.html",{'code':'',
-											'lang_default': x,
+											'lang_default': lang_default,
 											'input':'',
 											'status':'',
 											'user':user,
-											'theme':y,
+											'theme': theme,
+											'mode' : mode,
 											})
 
 

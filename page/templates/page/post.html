@@ -57,10 +57,12 @@
                 <option>chrome</option>
                 <option>xcode</option>
             </select>
+            <input type="radio" name="mode" value="public" {% ifequal mode "public" %}checked{% endifequal %} style="margin-left : 25px;">Public</input>
+            <input type="radio" name="mode" value="private" {% ifequal mode "private" %}checked{% endifequal %}>Private</input>
             <span style="float:right;margin-right:2%;font-size:18px"><kbd>Custom Input</kbd></span>
                 <input type="checkbox" id="check_input" style='float:right;margin-right:4px'></input>
             <input type='submit' id="submit" class='btn btn-success pull-right' style="margin-right: 1%" value='Compile and Run'></input>
-            <button class='btn btn-primary pull-right' type='button' id='downloadCode' style="margin-right: 1%">Download Code as File</button>
+            <button class='btn btn-primary pull-right' type='button' id='downloadCode' style="margin-right: 1%"><span class="glyphicon glyphicon-download-alt"></span>  Download</button>
             <button class='btn btn-primary pull-right' type='button' id='insertTemplate' style="margin-right: 1%">Insert Template</button>
          <!--   <button class='btn btn-warning pull-right' type='button' id='retrieve'>Retrieve Last Saved Code</button><br><br>-->
         </div>
@@ -77,17 +79,24 @@
 
     <br>
     <hr>
-    <div id='status_focus'></div>
+    <div id="status_focus"></div>
     <h4 id='status' style='margin-left:1%; display: none;'>STATUS:</h4>
-    <div id='status' style='display:inline;font-size:20px;border-bottom:1px dashed black;'><code>{{status}}</code></div>
+    <div id='status' style='display:inline;font-size:20px;border-bottom:1px dashed black;'><code>
+        {% ifequal status "AC" %} Success {% else %}
+        {% ifequal status "CE" %} Compilation Error {% else %}
+        {% ifequal status "RE" %} Runtime Error {% else %}
+        {% ifequal status "TLE" %} Time Limit Exceeded {% else %}
+        {{status}}{% endifequal %}{% endifequal %}{% endifequal %}{% endifequal %}
+    </code></div>
     <hr>
     <h4 id='output' style='display:none;margin-left:1%;'>OUTPUT</h4>
-
+    <div id='output_focus'>
     <center>    
         <textarea id='outputtextarea' readonly style="display:none">{{output}}</textarea>
     </center>
+    </div>
 
 <script src="{{STATIC_URL}}/static/ace/src/ace.js"></script>
+<script src="{{STATIC_URL}}/static/jquery-1.11.1.min.js">/</script>
 <script src="{{STATIC_URL}}/static/post.js"></script>
-
 {% endblock %}

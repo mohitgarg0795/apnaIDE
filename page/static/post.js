@@ -61,8 +61,6 @@ document.getElementById("lang").value=lang_default
 document.getElementById("theme").value=theme_default
 editor.getSession().setMode("ace/mode/"+lang_map[lang_default])
 
-
-
 window.onload=function(){
 	if(!document.getElementById('hiddentextarea').innerHTML)	//its a new compilation request page
 		{
@@ -77,6 +75,7 @@ window.onload=function(){
 			if(document.getElementById('outputtextarea').innerHTML!=''){
 				document.getElementById('output').style.display='initial'
 				document.getElementById('outputtextarea').style.display='initial'
+				document.getElementById('output_focus').scrollIntoView()
 			}
 			else
 				document.getElementById('status_focus').scrollIntoView()
@@ -130,10 +129,12 @@ document.getElementById("lang").onchange=function(){
 	editor.getSession().setMode("ace/mode/"+lang)
 };
 
+//change the theme
 document.getElementById("theme").onchange=function(){
 	editor.setTheme('ace/theme/'+this.value);
 };
 
+//give the download option
 document.getElementById("downloadCode").onclick=function(){      
 // grab the content of the form field and place it into a variable
     var textToWrite = editor.getValue();
